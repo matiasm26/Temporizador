@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SERVICE SKILL CONTEST · CHILE — panel local de temporizadores">
+  <title>SERVICE SKILL CONTEST · CHILE</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container py-4 py-lg-5">
+    <header class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+      <div>
+        <h1 class="mb-1">SERVICE SKILL CONTEST</h1>
+      </div>
+      <div class="d-flex gap-2">
+        <button id="startAll" class="btn btn-primary">Iniciar todos</button>
+        <button id="pauseAll" class="btn btn-outline-secondary">Pausar todos</button>
+        <button id="resetAll" class="btn btn-outline-danger">Reiniciar todos</button>
+      </div>
+    </header>
+
+    <section id="mainTimer" class="timer-panel main-panel mb-4" data-timer-id="main" aria-labelledby="mainTimerTitle">
+      <div class="panel-header">
+        <div>
+          <span class="badge rounded-pill text-bg-primary mb-2">PRINCIPAL</span>
+          <h2 id="mainTimerTitle" class="h3 mb-0">Temporizador principal</h2>
+        </div>
+        <span class="status-badge" data-status>Listo</span>
+      </div>
+      <div class="main-display" data-display>05:00</div>
+      <div class="progress timer-progress" role="progressbar" aria-label="Progreso del temporizador principal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progress-bar" data-progress></div>
+      </div>
+      <div class="timer-controls mt-4">
+        <div class="duration-fields" aria-label="Duración del temporizador principal">
+          <label>Minutos <input class="form-control" type="number" min="0" max="999" value="5" data-minutes></label>
+          <span>:</span>
+          <label>Segundos <input class="form-control" type="number" min="0" max="59" value="0" data-seconds></label>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary btn-lg" data-action="toggle">Iniciar</button>
+          <button class="btn btn-outline-secondary btn-lg" data-action="reset">Reiniciar</button>
+        </div>
+      </div>
+      <div class="quick-presets mt-3" aria-label="Duraciones rápidas">
+        <span class="small text-secondary me-2">Preajustes:</span>
+        <button class="btn btn-sm btn-light" data-preset="60">1 min</button>
+        <button class="btn btn-sm btn-light" data-preset="300">5 min</button>
+        <button class="btn btn-sm btn-light" data-preset="600">10 min</button>
+        <button class="btn btn-sm btn-light" data-preset="1500">25 min</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="secondaryTimersTitle">
+      <div class="d-flex justify-content-between align-items-end mb-3">
+        <div>
+          <p class="eyebrow mb-1">MULTITAREA</p>
+          <h2 id="secondaryTimersTitle" class="h4 mb-0">Temporizadores adicionales</h2>
+        </div>
+        <span class="text-secondary small">8 disponibles</span>
+      </div>
+      <div id="secondaryTimers" class="row g-3"></div>
+    </section>
+
+    <footer class="text-center text-secondary small mt-5">Los temporizadores funcionan localmente en este navegador.</footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
