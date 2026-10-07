@@ -33,7 +33,62 @@ h1 { font-weight: 750; }
 .status-badge { border-radius: 2rem; background: var(--surface); color: var(--muted); font-size: .75rem; font-weight: 700; padding: .4rem .75rem; }
 .status-badge.running { background: var(--primary); color: var(--surface); }
 .status-badge.finished { background: var(--ink); color: var(--surface); }
-.main-display { color: var(--ink); font-size: clamp(4rem, 13vw, 8rem); font-variant-numeric: tabular-nums; font-weight: 700; line-height: 1.05; margin: 1.75rem 0 1.25rem; text-align: center; }
+.main-display {
+  align-items: center;
+  aspect-ratio: 1;
+  background: var(--surface);
+  border: clamp(.45rem, 1.2vw, .75rem) solid var(--primary);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 .35rem var(--surface), inset 0 0 0 .48rem var(--ink), 0 1rem 2rem rgba(77, 89, 97, .16);
+  color: var(--ink);
+  display: flex;
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1.05;
+  margin: 1.75rem auto 1.25rem;
+  max-width: 22rem;
+  position: relative;
+  text-align: center;
+}
+.clock-number {
+  color: var(--ink);
+  font-size: clamp(.85rem, 2.2vw, 1.25rem);
+  font-weight: 750;
+  left: 50%;
+  line-height: 1;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.clock-number-12 { left: 50%; top: 9%; }
+.clock-number-1 { left: 71%; top: 15%; }
+.clock-number-2 { left: 83%; top: 28%; }
+.clock-number-3 { left: 91%; top: 50%; }
+.clock-number-4 { left: 83%; top: 72%; }
+.clock-number-5 { left: 71%; top: 85%; }
+.clock-number-6 { left: 50%; top: 91%; }
+.clock-number-7 { left: 29%; top: 85%; }
+.clock-number-8 { left: 17%; top: 72%; }
+.clock-number-9 { left: 9%; top: 50%; }
+.clock-number-10 { left: 17%; top: 28%; }
+.clock-number-11 { left: 29%; top: 15%; }
+.clock-time { position: relative; z-index: 2; }
+.main-display::before,
+.main-display::after {
+  background: var(--ink);
+  border-radius: 1rem;
+  content: "";
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform-origin: 50% 100%;
+  z-index: 0;
+}
+.main-display::before { height: 27%; transform: translate(-50%, -100%) rotate(var(--minute-angle, 0deg)); width: .3rem; }
+.main-display::after { height: 38%; transform: translate(-50%, -100%) rotate(var(--second-angle, 0deg)); width: .22rem; }
 .timer-display { color: var(--ink); font-size: clamp(2.25rem, 7vw, 3.8rem); font-variant-numeric: tabular-nums; font-weight: 700; line-height: 1; margin: 1.25rem 0; }
 .timer-progress { background: var(--surface); border: 1px solid var(--line); height: .65rem; overflow: hidden; }
 .progress-bar { background: var(--primary); transition: width .25s linear; }
@@ -65,6 +120,63 @@ h1 { font-weight: 750; }
 .btn-outline-danger:hover { background: var(--ink); border-color: var(--ink); color: var(--surface); }
 .btn-light { background: var(--surface); border-color: var(--line); color: var(--ink); }
 .btn-light:hover { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+
+.main-clock {
+  aspect-ratio: 1;
+  margin: 1.75rem auto 1.25rem;
+  max-width: 22rem;
+  position: relative;
+  width: 100%;
+}
+
+#mainTimer .timer-progress {
+  background: conic-gradient(from -90deg, var(--primary) 0 var(--remaining-progress, 100%), var(--line) var(--remaining-progress, 100%) 100%);
+  border: 0;
+  border-radius: 50%;
+  height: 100%;
+  inset: 0;
+  overflow: visible;
+  padding: .75rem;
+  position: absolute;
+  width: 100%;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - .75rem), #000 calc(100% - .74rem));
+  mask: radial-gradient(farthest-side, transparent calc(100% - .75rem), #000 calc(100% - .74rem));
+}
+#mainTimer .timer-progress .progress-bar { display: none; }
+
+#mainTimer .main-display {
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  box-shadow: 0 .75rem 1.5rem rgba(77, 89, 97, .12);
+  display: flex;
+  flex-direction: column;
+  inset: .9rem;
+  justify-content: center;
+  margin: 0;
+  max-width: none;
+  position: absolute;
+  width: auto;
+}
+#mainTimer .main-display::before,
+#mainTimer .main-display::after { display: none; }
+#mainTimer .clock-time {
+  color: var(--ink);
+  font-size: clamp(2.7rem, 7vw, 4.8rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 750;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+#mainTimer .remaining-label {
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 650;
+  letter-spacing: .08em;
+  margin-top: .65rem;
+  text-transform: uppercase;
+}
 
 @media (max-width: 767.98px) {
   header .btn { flex: 1; }

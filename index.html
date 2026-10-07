@@ -29,9 +29,14 @@
         </div>
         <span class="status-badge" data-status>Listo</span>
       </div>
-      <div class="main-display" data-display>05:00</div>
-      <div class="progress timer-progress" role="progressbar" aria-label="Progreso del temporizador principal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <div class="progress-bar" data-progress></div>
+      <div class="main-clock">
+        <div class="progress timer-progress" role="progressbar" aria-label="Tiempo restante del temporizador principal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+          <div class="progress-bar" data-progress></div>
+        </div>
+        <div class="main-display">
+          <span class="clock-time" data-display>05:00</span>
+          <span class="remaining-label">Tiempo restante</span>
+        </div>
       </div>
       <div class="timer-controls mt-4">
         <div class="duration-fields" aria-label="Duración del temporizador principal">
@@ -56,8 +61,8 @@
     <section aria-labelledby="secondaryTimersTitle">
       <div class="d-flex justify-content-between align-items-end mb-3">
         <div>
-          <p class="eyebrow mb-1">MULTITAREA</p>
-          <h2 id="secondaryTimersTitle" class="h4 mb-0">Temporizadores adicionales</h2>
+          <p class="eyebrow mb-1"></p>
+          <h2 id="secondaryTimersTitle" class="h4 mb-0">Tiempo por participante</h2>
         </div>
         <span class="text-secondary small">8 disponibles</span>
       </div>

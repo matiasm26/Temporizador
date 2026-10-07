@@ -72,6 +72,13 @@ function render(timer) {
   const percent = timer.total > 0 ? ((timer.total - timer.remaining) / timer.total) * 100 : 0;
   timer.element.querySelector('[data-display]').textContent = formatTime(timer.remaining);
   timer.element.querySelector('[data-progress]').style.width = `${percent}%`;
+  timer.element.querySelector('.timer-progress').style.setProperty('--remaining-progress', `${100 - percent}%`);
+  if (timer.element.dataset.timerId === 'main') {
+    const secondAngle = (timer.remaining % 60) * 6;
+    const minuteAngle = (timer.remaining % 3600) * 0.1;
+    timer.element.style.setProperty('--second-angle', `${secondAngle}deg`);
+    timer.element.style.setProperty('--minute-angle', `${minuteAngle}deg`);
+  }
   const status = timer.element.querySelector('[data-status]');
   const toggle = timer.element.querySelector('[data-action="toggle"]');
   status.className = 'status-badge';
