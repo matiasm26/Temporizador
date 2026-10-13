@@ -88,15 +88,15 @@ function render(timer) {
   if (timer.running) {
     status.textContent = 'En curso';
     status.classList.add('running');
-    toggle.textContent = 'Pausar';
+    if (toggle) toggle.textContent = 'Pausar';
   } else if (timer.remaining === 0) {
     status.textContent = 'Finalizado';
     status.classList.add('finished');
-    toggle.textContent = 'Iniciar';
+    if (toggle) toggle.textContent = 'Iniciar';
     timer.element.classList.add('done');
   } else {
     status.textContent = 'Listo';
-    toggle.textContent = 'Iniciar';
+    if (toggle) toggle.textContent = 'Iniciar';
     timer.element.classList.remove('done');
   }
 }

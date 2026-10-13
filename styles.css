@@ -216,25 +216,49 @@ h1 { font-weight: 750; }
   height: 100%;
   min-height: 0;
   overflow: hidden;
-  padding: .85rem;
+  padding: .65rem .65rem .4rem;
 }
 .secondary-timer .timer-display {
   font-size: clamp(1.65rem, 3vw, 2.4rem);
-  margin: .35rem 0;
+  line-height: 1;
+  margin: .2rem 0;
 }
 .secondary-timer .timer-name {
-  margin-top: .2rem;
-  padding: .2rem .4rem;
+  font-size: .98rem;
+  margin-top: .15rem;
+  padding: .35rem .45rem;
+}
+.secondary-timer .timer-progress {
+  flex-shrink: 0;
+  height: .45rem;
 }
 .secondary-timer .status-badge {
   font-size: .65rem;
   padding: .2rem .45rem;
 }
 .secondary-timer .timer-controls {
-  margin-top: auto !important;
+  margin-top: 0 !important;
 }
 .secondary-timer .timer-controls .btn {
-  padding: .3rem .45rem;
+  font-size: .72rem;
+  line-height: 1.1;
+  padding: .5rem .65rem;
+  text-transform: uppercase;
+}
+.secondary-timer .timer-card .btn-group {
+  gap: .35rem;
+}
+.global-controls {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.timer-layout > #mainTimer .timer-controls {
+  justify-content: center;
+}
+.secondary-timer .timer-card .btn-group > .btn + .btn {
+  margin-left: 0;
 }
 .timer-layout > #mainTimer {
   align-self: center;

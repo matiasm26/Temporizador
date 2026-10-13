@@ -10,15 +10,8 @@
 </head>
 <body>
   <main class="container py-4 py-lg-5">
-    <header class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
-      <div>
-        <h1 class="mb-1">SERVICE SKILL CONTEST</h1>
-      </div>
-      <div class="d-flex gap-2">
-        <button id="startAll" class="btn btn-primary">Iniciar todos</button>
-        <button id="pauseAll" class="btn btn-outline-secondary">Pausar todos</button>
-        <button id="resetAll" class="btn btn-outline-danger">Reiniciar todos</button>
-      </div>
+    <header class="d-flex justify-content-center mb-4">
+      <h1 class="mb-0 text-center">SERVICE SKILL CONTEST</h1>
     </header>
 
     <div class="timer-layout">
@@ -26,9 +19,6 @@
 
       <section id="mainTimer" class="timer-panel main-panel" data-timer-id="main" aria-labelledby="mainTimerTitle">
         <div class="panel-header">
-          <div>
-            <span class="badge rounded-pill text-bg-primary mb-2">PRINCIPAL</span>
-          </div>
           <span class="status-badge" data-status>Listo</span>
         </div>
         <div class="main-clock">
@@ -46,10 +36,11 @@
             <span>:</span>
             <label>Segundos <input class="form-control" type="number" min="0" max="59" value="0" data-seconds></label>
           </div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-primary btn-lg" data-action="toggle">Iniciar</button>
-            <button class="btn btn-outline-secondary btn-lg" data-action="reset">Reiniciar</button>
-          </div>
+        </div>
+        <div class="global-controls" aria-label="Controles de todos los temporizadores">
+          <button id="startAll" class="btn btn-primary">Iniciar todos</button>
+          <button id="pauseAll" class="btn btn-outline-secondary">Pausar todos</button>
+          <button id="resetAll" class="btn btn-outline-danger">Reiniciar todos</button>
         </div>
       </section>
 
