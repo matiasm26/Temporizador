@@ -284,6 +284,15 @@ h1 { font-weight: 750; }
   justify-content: space-between;
   padding: .55rem .75rem;
 }
+.summary-index {
+  color: var(--primary-dark);
+  font-weight: 800;
+  margin-right: .55rem;
+  min-width: 1.25rem;
+}
+.summary-row > span:not(.summary-index) {
+  margin-right: auto;
+}
 .summary-row strong {
   color: var(--primary-dark);
   font-variant-numeric: tabular-nums;

@@ -3,6 +3,7 @@ const secondaryContainers = [
   document.querySelector('#secondaryTimersRight'),
 ];
 const timerElements = new Map();
+let pauseSequence = 0;
 let audioContext;
 
 function formatTime(totalSeconds) {
@@ -49,6 +50,7 @@ document.querySelectorAll('[data-timer-id]').forEach((element) => {
     remaining: initialSeconds,
     running: false,
     paused: false,
+    pausedAt: null,
     interval: null,
   });
 });
@@ -64,7 +66,7 @@ function readDuration(timer) {
 function syncSecondaryDurations(seconds) {
   timerElements.forEach((timer) => {
     if (timer.element.dataset.timerId !== 'main') {
-      pauseTimer(timer);
+      pauseTimer(timer, false);
       timer.total = seconds;
       timer.remaining = seconds;
       render(timer);
@@ -72,27 +74,29 @@ function syncSecondaryDurations(seconds) {
   });
 }
 function renderSummary() {
-  const mainTimer = timerElements.get('main');
-  const anyPaused = [...timerElements.values()].some((timer) => timer.paused);
   const summary = document.querySelector('#participantSummary');
-  if (!mainTimer || (!anyPaused && mainTimer.remaining !== 0)) {
+  const pausedTimers = [...timerElements.values()]
+    .filter((timer) => timer.element.dataset.timerId !== 'main' && timer.paused)
+    .sort((a, b) => a.pausedAt - b.pausedAt);
+  if (pausedTimers.length === 0) {
     summary.hidden = true;
     return;
   }
 
   summary.hidden = false;
   const list = summary.querySelector('[data-summary-list]');
-  const rows = [];
-  timerElements.forEach((timer) => {
-    if (timer.element.dataset.timerId === 'main') return;
+  const rows = pausedTimers.map((timer, index) => {
     const row = document.createElement('div');
+    const order = document.createElement('span');
     const name = document.createElement('span');
     const elapsed = document.createElement('strong');
     row.className = 'summary-row';
+    order.className = 'summary-index';
+    order.textContent = `${index + 1}.`;
     name.textContent = timer.element.querySelector('[data-name]').value || 'Sin nombre';
     elapsed.textContent = formatTime(timer.total - timer.remaining);
-    row.append(name, elapsed);
-    rows.push(row);
+    row.append(order, name, elapsed);
+    return row;
   });
   list.replaceChildren(...rows);
 }
@@ -153,6 +157,7 @@ function beep(duration = 3, volume = 0.45) {
 function pauseTimer(timer, markPaused = true) {
   timer.running = false;
   timer.paused = markPaused && timer.remaining > 0;
+  timer.pausedAt = timer.paused ? ++pauseSequence : null;
   clearInterval(timer.interval);
   timer.interval = null;
   render(timer);
@@ -161,6 +166,7 @@ function pauseTimer(timer, markPaused = true) {
 function startTimer(timer) {
   if (timer.remaining === 0) resetTimer(timer);
   timer.running = true;
+  timer.pausedAt = null;
   timer.paused = false;
   clearInterval(timer.interval);
   timer.interval = setInterval(() => {
