@@ -1,4 +1,7 @@
-const secondaryContainer = document.querySelector('#secondaryTimers');
+const secondaryContainers = [
+  document.querySelector('#secondaryTimersLeft'),
+  document.querySelector('#secondaryTimersRight'),
+];
 const timerElements = new Map();
 let audioContext;
 
@@ -10,7 +13,7 @@ function formatTime(totalSeconds) {
 
 function createSecondaryTimer(id) {
   const card = document.createElement('article');
-  card.className = 'col-12 col-md-6 col-xl-3';
+  card.className = 'secondary-timer';
   card.innerHTML = `
     <div class="timer-card" data-timer-id="${id}">
       <div class="card-header-line">
@@ -29,7 +32,7 @@ function createSecondaryTimer(id) {
         </div>
       </div>
     </div>`;
-  secondaryContainer.append(card);
+  secondaryContainers[id <= 4 ? 0 : 1].append(card);
 }
 
 for (let id = 1; id <= 8; id += 1) createSecondaryTimer(id);

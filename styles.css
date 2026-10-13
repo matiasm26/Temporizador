@@ -29,6 +29,11 @@ h1 { font-weight: 750; }
   box-shadow: 0 .75rem 2rem rgba(77, 89, 97, .12);
 }
 .main-panel { padding: clamp(1.25rem, 4vw, 2.5rem); }
+.timer-layout > #mainTimer {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
 .panel-header, .card-header-line { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
 .status-badge { border-radius: 2rem; background: var(--surface); color: var(--muted); font-size: .75rem; font-weight: 700; padding: .4rem .75rem; }
 .status-badge.running { background: var(--primary); color: var(--surface); }
@@ -185,4 +190,94 @@ h1 { font-weight: 750; }
   .duration-fields { justify-content: center; }
   .timer-controls > .d-flex { justify-content: center; }
   .main-panel .timer-controls .btn { flex: 1; }
+}
+.timer-layout {
+  align-items: stretch;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(10rem, .72fr) minmax(28rem, 1.7fr) minmax(10rem, .72fr);
+  height: calc(100vh - 9rem);
+  min-height: 0;
+}
+.secondary-column {
+  display: grid;
+  gap: .75rem;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  min-height: 0;
+  min-width: 0;
+}
+.secondary-timer {
+  min-height: 0;
+  overflow: hidden;
+}
+.secondary-timer .timer-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  padding: .85rem;
+}
+.secondary-timer .timer-display {
+  font-size: clamp(1.65rem, 3vw, 2.4rem);
+  margin: .35rem 0;
+}
+.secondary-timer .timer-name {
+  margin-top: .2rem;
+  padding: .2rem .4rem;
+}
+.secondary-timer .status-badge {
+  font-size: .65rem;
+  padding: .2rem .45rem;
+}
+.secondary-timer .timer-controls {
+  margin-top: auto !important;
+}
+.secondary-timer .timer-controls .btn {
+  padding: .3rem .45rem;
+}
+.timer-layout > #mainTimer {
+  align-self: center;
+  height: fit-content;
+  margin-bottom: 0 !important;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+@media (max-width: 991.98px) {
+  .timer-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    height: auto;
+  }
+  .timer-layout > #mainTimer {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  .secondary-column {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .timer-layout > #secondaryTimersLeft {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .timer-layout > #secondaryTimersRight {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .timer-layout {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+  }
+  .timer-layout > #mainTimer {
+    order: -1;
+  }
+  .secondary-column {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
 }

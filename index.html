@@ -21,55 +21,47 @@
       </div>
     </header>
 
-    <section id="mainTimer" class="timer-panel main-panel mb-4" data-timer-id="main" aria-labelledby="mainTimerTitle">
-      <div class="panel-header">
-        <div>
-          <span class="badge rounded-pill text-bg-primary mb-2">PRINCIPAL</span>
-          <h2 id="mainTimerTitle" class="h3 mb-0">Temporizador principal</h2>
+    <div class="timer-layout">
+      <div id="secondaryTimersLeft" class="secondary-column" aria-label="Temporizadores 1 a 4"></div>
+
+      <section id="mainTimer" class="timer-panel main-panel" data-timer-id="main" aria-labelledby="mainTimerTitle">
+        <div class="panel-header">
+          <div>
+            <span class="badge rounded-pill text-bg-primary mb-2">PRINCIPAL</span>
+          </div>
+          <span class="status-badge" data-status>Listo</span>
         </div>
-        <span class="status-badge" data-status>Listo</span>
-      </div>
-      <div class="main-clock">
-        <div class="progress timer-progress" role="progressbar" aria-label="Tiempo restante del temporizador principal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
-          <div class="progress-bar" data-progress></div>
+        <div class="main-clock">
+          <div class="progress timer-progress" role="progressbar" aria-label="Tiempo restante del temporizador principal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+            <div class="progress-bar" data-progress></div>
+          </div>
+          <div class="main-display">
+            <span class="clock-time" data-display>05:00</span>
+            <span class="remaining-label">Tiempo restante</span>
+          </div>
         </div>
-        <div class="main-display">
-          <span class="clock-time" data-display>05:00</span>
-          <span class="remaining-label">Tiempo restante</span>
+        <div class="timer-controls mt-4">
+          <div class="duration-fields" aria-label="Duración del temporizador principal">
+            <label>Minutos <input class="form-control" type="number" min="0" max="999" value="5" data-minutes></label>
+            <span>:</span>
+            <label>Segundos <input class="form-control" type="number" min="0" max="59" value="0" data-seconds></label>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary btn-lg" data-action="toggle">Iniciar</button>
+            <button class="btn btn-outline-secondary btn-lg" data-action="reset">Reiniciar</button>
+          </div>
         </div>
-      </div>
-      <div class="timer-controls mt-4">
-        <div class="duration-fields" aria-label="Duración del temporizador principal">
-          <label>Minutos <input class="form-control" type="number" min="0" max="999" value="5" data-minutes></label>
-          <span>:</span>
-          <label>Segundos <input class="form-control" type="number" min="0" max="59" value="0" data-seconds></label>
-        </div>
-        <div class="d-flex gap-2">
-          <button class="btn btn-primary btn-lg" data-action="toggle">Iniciar</button>
-          <button class="btn btn-outline-secondary btn-lg" data-action="reset">Reiniciar</button>
-        </div>
-      </div>
-      <div class="quick-presets mt-3" aria-label="Duraciones rápidas">
-        <span class="small text-secondary me-2">Preajustes:</span>
-        <button class="btn btn-sm btn-light" data-preset="60">1 min</button>
-        <button class="btn btn-sm btn-light" data-preset="300">5 min</button>
-        <button class="btn btn-sm btn-light" data-preset="600">10 min</button>
-        <button class="btn btn-sm btn-light" data-preset="1500">25 min</button>
-      </div>
+      </section>
+
+      <div id="secondaryTimersRight" class="secondary-column" aria-label="Temporizadores 5 a 8"></div>
+    </div>
+
+    <section class="visually-hidden" aria-labelledby="secondaryTimersTitle">
+      <h2 id="secondaryTimersTitle">Tiempo por participante</h2>
     </section>
 
-    <section aria-labelledby="secondaryTimersTitle">
-      <div class="d-flex justify-content-between align-items-end mb-3">
-        <div>
-          <p class="eyebrow mb-1"></p>
-          <h2 id="secondaryTimersTitle" class="h4 mb-0">Tiempo por participante</h2>
-        </div>
-        <span class="text-secondary small">8 disponibles</span>
-      </div>
-      <div id="secondaryTimers" class="row g-3"></div>
-    </section>
+    <footer class="text-center text-secondary small mt-4">Los temporizadores funcionan localmente en este navegador.</footer>
 
-    <footer class="text-center text-secondary small mt-5">Los temporizadores funcionan localmente en este navegador.</footer>
   </main>
   <script src="app.js"></script>
 </body>
