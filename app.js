@@ -71,6 +71,31 @@ function syncSecondaryDurations(seconds) {
     }
   });
 }
+function renderSummary() {
+  const mainTimer = timerElements.get('main');
+  const anyPaused = [...timerElements.values()].some((timer) => timer.paused);
+  const summary = document.querySelector('#participantSummary');
+  if (!mainTimer || (!anyPaused && mainTimer.remaining !== 0)) {
+    summary.hidden = true;
+    return;
+  }
+
+  summary.hidden = false;
+  const list = summary.querySelector('[data-summary-list]');
+  const rows = [];
+  timerElements.forEach((timer) => {
+    if (timer.element.dataset.timerId === 'main') return;
+    const row = document.createElement('div');
+    const name = document.createElement('span');
+    const elapsed = document.createElement('strong');
+    row.className = 'summary-row';
+    name.textContent = timer.element.querySelector('[data-name]').value || 'Sin nombre';
+    elapsed.textContent = formatTime(timer.total - timer.remaining);
+    row.append(name, elapsed);
+    rows.push(row);
+  });
+  list.replaceChildren(...rows);
+}
 
 function render(timer) {
   const percent = timer.total > 0 ? ((timer.total - timer.remaining) / timer.total) * 100 : 0;
@@ -105,6 +130,7 @@ function render(timer) {
     status.textContent = 'Listo';
     if (toggle) toggle.textContent = 'Iniciar';
   }
+  renderSummary();
 }
 
 function beep(duration = 3, volume = 0.45) {
@@ -135,6 +161,7 @@ function pauseTimer(timer, markPaused = true) {
 function startTimer(timer) {
   if (timer.remaining === 0) resetTimer(timer);
   timer.running = true;
+  timer.paused = false;
   clearInterval(timer.interval);
   timer.interval = setInterval(() => {
     timer.remaining -= 1;
