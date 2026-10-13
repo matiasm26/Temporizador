@@ -48,6 +48,7 @@ document.querySelectorAll('[data-timer-id]').forEach((element) => {
     total: initialSeconds,
     remaining: initialSeconds,
     running: false,
+    paused: false,
     interval: null,
   });
 });
@@ -85,6 +86,7 @@ function render(timer) {
   const status = timer.element.querySelector('[data-status]');
   const toggle = timer.element.querySelector('[data-action="toggle"]');
   status.className = 'status-badge';
+  timer.element.classList.remove('done', 'paused');
   if (timer.running) {
     status.textContent = 'En curso';
     status.classList.add('running');
@@ -94,31 +96,37 @@ function render(timer) {
     status.classList.add('finished');
     if (toggle) toggle.textContent = 'Iniciar';
     timer.element.classList.add('done');
+  } else if (timer.paused) {
+    status.textContent = 'Pausado';
+    status.classList.add('paused');
+    if (toggle) toggle.textContent = 'Continuar';
+    timer.element.classList.add('paused');
   } else {
     status.textContent = 'Listo';
     if (toggle) toggle.textContent = 'Iniciar';
-    timer.element.classList.remove('done');
   }
 }
 
-function beep() {
+function beep(duration = 3, volume = 0.45) {
   try {
     audioContext ??= new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
+    const endTime = audioContext.currentTime + duration;
     oscillator.frequency.value = 740;
-    gain.gain.setValueAtTime(0.12, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.45);
+    gain.gain.setValueAtTime(volume, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, endTime);
     oscillator.connect(gain).connect(audioContext.destination);
     oscillator.start();
-    oscillator.stop(audioContext.currentTime + 0.45);
+    oscillator.stop(endTime);
   } catch (error) {
     // El sonido es opcional y puede estar bloqueado por el navegador.
   }
 }
 
-function pauseTimer(timer) {
+function pauseTimer(timer, markPaused = true) {
   timer.running = false;
+  timer.paused = markPaused && timer.remaining > 0;
   clearInterval(timer.interval);
   timer.interval = null;
   render(timer);
@@ -132,17 +140,18 @@ function startTimer(timer) {
     timer.remaining -= 1;
     if (timer.remaining <= 0) {
       timer.remaining = 0;
-      pauseTimer(timer);
+      pauseTimer(timer, false);
       beep();
     } else {
       render(timer);
+      if (timer.remaining <= 10) beep(0.18, 0.28);
     }
   }, 1000);
   render(timer);
 }
 
 function resetTimer(timer) {
-  pauseTimer(timer);
+  pauseTimer(timer, false);
   timer.total = timer.element.dataset.timerId === 'main'
     ? readDuration(timer)
     : timerElements.get('main').total;

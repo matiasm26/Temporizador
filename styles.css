@@ -38,6 +38,15 @@ h1 { font-weight: 750; }
 .status-badge { border-radius: 2rem; background: var(--surface); color: var(--muted); font-size: .75rem; font-weight: 700; padding: .4rem .75rem; }
 .status-badge.running { background: var(--primary); color: var(--surface); }
 .status-badge.finished { background: var(--ink); color: var(--surface); }
+.status-badge.paused {
+  background: var(--primary);
+  color: var(--surface);
+}
+.timer-card.paused {
+  background: rgba(203, 106, 40, .24);
+  border: 3px solid var(--primary);
+  box-shadow: 0 .75rem 2rem rgba(77, 89, 97, .12);
+}
 .main-display {
   align-items: center;
   aspect-ratio: 1;
