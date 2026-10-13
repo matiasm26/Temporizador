@@ -1,3 +1,14 @@
+const TIMER_NAMES = [
+  'Felipe Retamal',
+  'Daniel Ruz',
+  'Diego Gatica',
+  'Cristobal Castro',
+  'Luis Alvarado',
+  'Sergio Rojas',
+  'Marcos Otero',
+  'Daniel Rodriguez',
+];
+
 const secondaryContainers = [
   document.querySelector('#secondaryTimersLeft'),
   document.querySelector('#secondaryTimersRight'),
@@ -21,7 +32,7 @@ function createSecondaryTimer(id) {
         <label class="timer-name-label" for="timer-name-${id}">Nombre</label>
         <span class="status-badge" data-status>Listo</span>
       </div>
-      <input id="timer-name-${id}" class="form-control timer-name" type="text" value="Temporizador ${id}" maxlength="40" data-name aria-label="Nombre del temporizador ${id}">
+      <input id="timer-name-${id}" class="form-control timer-name" type="text" value="${TIMER_NAMES[id - 1]}" maxlength="40" data-name aria-label="Nombre del temporizador ${id}">
       <div class="timer-display" data-display>05:00</div>
       <div class="progress timer-progress" role="progressbar" aria-label="Progreso del temporizador ${id}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <div class="progress-bar" data-progress></div>
