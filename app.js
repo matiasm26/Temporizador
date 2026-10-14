@@ -16,6 +16,8 @@ const secondaryContainers = [
 const timerElements = new Map();
 let pauseSequence = 0;
 let audioContext;
+let countdownInterval = null;
+let countdownActive = false;
 
 function formatTime(totalSeconds) {
   const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
@@ -40,6 +42,7 @@ function createSecondaryTimer(id) {
       <div class="timer-controls mt-3">
         <div class="btn-group">
           <button class="btn btn-sm btn-primary" data-action="toggle">Iniciar</button>
+          <button class="btn btn-sm btn-outline-secondary" data-action="pause" disabled>Pausar</button>
           <button class="btn btn-sm btn-outline-secondary" data-action="reset">Reiniciar</button>
         </div>
       </div>
@@ -125,6 +128,7 @@ function render(timer) {
   }
   const status = timer.element.querySelector('[data-status]');
   const toggle = timer.element.querySelector('[data-action="toggle"]');
+  const pause = timer.element.querySelector('[data-action="pause"]');
   status.className = 'status-badge';
   timer.element.classList.remove('done', 'paused');
   if (timer.running) {
@@ -145,6 +149,7 @@ function render(timer) {
     status.textContent = 'Listo';
     if (toggle) toggle.textContent = 'Iniciar';
   }
+  if (pause) pause.disabled = !timer.running;
   renderSummary();
 }
 
@@ -163,6 +168,37 @@ function beep(duration = 3, volume = 0.45) {
   } catch (error) {
     // El sonido es opcional y puede estar bloqueado por el navegador.
   }
+}
+
+function cancelCountdown() {
+  clearInterval(countdownInterval);
+  countdownInterval = null;
+  countdownActive = false;
+  const overlay = document.querySelector('#countdownOverlay');
+  overlay.hidden = true;
+  overlay.setAttribute('aria-hidden', 'true');
+}
+
+function startAllWithCountdown() {
+  if (countdownActive) return;
+  const overlay = document.querySelector('#countdownOverlay');
+  const value = document.querySelector('#countdownValue');
+  let count = 3;
+  countdownActive = true;
+  overlay.hidden = false;
+  overlay.setAttribute('aria-hidden', 'false');
+  value.textContent = count;
+  beep(0.16, 0.35);
+  countdownInterval = setInterval(() => {
+    count -= 1;
+    if (count === 0) {
+      cancelCountdown();
+      timerElements.forEach(startTimer);
+      return;
+    }
+    value.textContent = count;
+    beep(0.16, 0.35);
+  }, 1000);
 }
 
 function pauseTimer(timer, markPaused = true) {
@@ -213,6 +249,7 @@ document.addEventListener('click', (event) => {
   if (action) {
     const timer = timerElements.get(action.closest('[data-timer-id]').dataset.timerId);
     if (action.dataset.action === 'toggle') toggleTimer(timer);
+    if (action.dataset.action === 'pause') pauseTimer(timer);
     if (action.dataset.action === 'reset') resetTimer(timer);
     return;
   }
@@ -235,8 +272,14 @@ document.querySelectorAll('#mainTimer [data-minutes], #mainTimer [data-seconds]'
   });
 });
 
-document.querySelector('#startAll').addEventListener('click', () => timerElements.forEach(startTimer));
-document.querySelector('#pauseAll').addEventListener('click', () => timerElements.forEach(pauseTimer));
-document.querySelector('#resetAll').addEventListener('click', () => timerElements.forEach(resetTimer));
+document.querySelector('#startAll').addEventListener('click', startAllWithCountdown);
+document.querySelector('#pauseAll').addEventListener('click', () => {
+  cancelCountdown();
+  timerElements.forEach(pauseTimer);
+});
+document.querySelector('#resetAll').addEventListener('click', () => {
+  cancelCountdown();
+  timerElements.forEach(resetTimer);
+});
 
 timerElements.forEach(render);
